@@ -85,6 +85,32 @@ header{
     gap: .5rem;
 }
 
+.search-container{
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.search-input{
+    width: 250px;
+    border: 0;
+    padding: .3rem .9rem;
+    border-radius: 100vmax;
+    background-color: rgba(255, 255, 255, 0.562);
+}
+
+.search-container span{
+    position: relative;
+    left: -25px;
+    border-radius: 100vmax;
+}
+
+.search-container span i{
+    color: gray;
+}
+
 .show-list{
     display: flex;
     animation: showList .4s;

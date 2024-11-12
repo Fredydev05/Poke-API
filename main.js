@@ -9,8 +9,9 @@ for (let i=1; i<=151; i++){
     fetch(URL + i)
         .then(response => response.json())
         .then(data => mostrarPokemon(data))
-}
 
+}
+    
 function mostrarPokemon(pokemon){
     let tipo = pokemon.types.map(type => `<p class="${type.type.name} tipo">${type.type.name}</p>`)
     tipo.join(``);
@@ -91,3 +92,39 @@ function showNavBtn(){
 }
 
 
+const search = document.querySelector(".search-input");
+const URL2 = "https://pokeapi.co/api/v2/pokemon?limit=151"; 
+let allPokemons = [];
+
+fetch(URL2)
+    .then(response => response.json())
+    .then(data => {
+        allPokemons = data.results; 
+    })
+    .catch(error => console.error("Error:", error));
+
+function debounce(func, delay) {
+    let timeout;
+    return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+}
+
+function buscarPokemon() {
+    let searchPoke = search.value.toLowerCase(); 
+    listaPokemon.innerHTML = ""; 
+
+    const filteredPokemons = allPokemons.filter(pokemon => 
+        pokemon.name.toLowerCase().includes(searchPoke)
+    );
+
+    filteredPokemons.forEach(pokemon => {
+        fetch(pokemon.url)
+            .then(response => response.json())
+            .then(data => mostrarPokemon(data))
+            .catch(error => console.error("Error:", error));
+    });
+}
+
+search.addEventListener("keyup", debounce(buscarPokemon, 300));
